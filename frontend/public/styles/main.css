@@ -1,1 +1,93 @@
-body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+body {
+  background: #0f1923;
+  color: white;
+  font-family: Arial, sans-serif;
+  margin: 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 1rem;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.controls {
+  margin: 1rem 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  background: #1b2735;
+  padding: 1rem;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.card img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+
+
+h1, h2 {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+  color: #ff4655;
+}
+
+section {
+  margin-bottom: 40px;
+}
+
+#agents, 
+#maps,
+#weapons,
+#skins {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: #11121a;
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #1f1f2b;
+  box-shadow: 0 0 10px rgba(255, 70, 85, 0.2);
+  transition: transform 0.2s, box-shadow 0.2s;
+  text-align: center;
+}
+
+.card img {
+  width: 100%;
+  height: 150px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(255, 70, 85, 0.4);
+}
+
+.weapon-card {
+  cursor: pointer;
+}
+
+.weapon-card:hover {
+  background: #1a1b25;
+}
+
