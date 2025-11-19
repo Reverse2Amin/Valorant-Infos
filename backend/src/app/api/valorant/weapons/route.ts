@@ -17,11 +17,13 @@ export async function GET() {
     const weapon = w as {
       displayName: string;
       displayIcon: string;
+      displayType: string;
     };
 
     return {
       name: weapon.displayName,
       icon: weapon.displayIcon,
+      type: weapon.displayType,
     };
   });
 
