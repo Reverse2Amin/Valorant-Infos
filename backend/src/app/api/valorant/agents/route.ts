@@ -19,11 +19,17 @@ export async function GET() {
     const agent = a as {
       displayName: string;
       displayIcon: string;
+      description: string;
+      bustPortrait: string;
+      background: string;
     };
 
     return {
       name: agent.displayName,
       icon: agent.displayIcon,
+      description: agent.description,
+      fullBodyPicture: agent.bustPortrait,
+      background: agent.background,
     };
   });
 

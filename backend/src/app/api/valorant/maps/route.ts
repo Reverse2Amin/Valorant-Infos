@@ -16,12 +16,14 @@ export async function GET() {
   const data = json.data.map((m) => {
     const map = m as {
       displayName: string;
-      splash: string;
+      coordinates: string;
+      listViewIconTall: string;
     };
 
     return {
       name: map.displayName,
-      splash: map.splash,
+      coordinates: map.coordinates,
+      iconTall: map.listViewIconTall,
     };
   });
 
