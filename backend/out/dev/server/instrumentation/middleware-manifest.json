@@ -1,0 +1,12 @@
+{
+  "sorted_middleware": [],
+  "middleware": {},
+  "instrumentation": {
+    "files": [
+      "server/edge/chunks/80b94_IMS_IMS Module_Modul 295_Projekt_Valorant-Infos_Valorant-Infos_backend_802911ce._.js",
+      "server/edge/chunks/14f94_Modul 295_Projekt_Valorant-Infos_Valorant-Infos_backend_edge-wrapper_bd9d5eb5.js"
+    ],
+    "name": "instrumentation"
+  },
+  "functions": {}
+}

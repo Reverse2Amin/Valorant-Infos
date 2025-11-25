@@ -1,36 +1,23 @@
+import { NextRequest } from 'next/server';
+import { corsResponse, corsHeaders } from '@/lib/cors';
+
 export async function OPTIONS() {
-  return new Response(null, {
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
-    },
-  });
+  return new Response(null, { status: 204, headers: corsHeaders() });
 }
 
-export async function GET() {
-  const valorantRes = await fetch(
-    "https://valorant-api.com/v1/agents?isPlayableCharacter=true"
-  );
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export async function GET(req: NextRequest) {
+  try {
+    const response = await fetch('https://valorant-api.com/v1/agents?isPlayableCharacter=true');
+    const data = await response.json();
 
-  const json: { data: unknown[] } = await valorantRes.json();
+    if (data.status !== 200) {
+      return corsResponse({ error: 'Fehler beim Abrufen der Agents' }, 500);
+    }
 
-  const data = json.data.map((a) => {
-    const agent = a as {
-      displayName: string;
-      displayIcon: string;
-    };
-
-    return {
-      name: agent.displayName,
-      icon: agent.displayIcon,
-    };
-  });
-
-  return new Response(JSON.stringify(data), {
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Content-Type": "application/json",
-    },
-  });
+    return corsResponse(data);
+  } catch (error) {
+    console.error('Agents fetch error:', error);
+    return corsResponse({ error: 'Agents konnten nicht geladen werden' }, 500);
+  }
 }

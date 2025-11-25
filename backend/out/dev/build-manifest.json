@@ -1,0 +1,50 @@
+{
+  "pages": {
+    "/_app": [
+      "static/chunks/7a697_next_dist_compiled_262d8782._.js",
+      "static/chunks/7a697_next_dist_shared_lib_e2ee89c5._.js",
+      "static/chunks/7a697_next_dist_client_bee5c7de._.js",
+      "static/chunks/7a697_next_dist_33646992._.js",
+      "static/chunks/7a697_next_app_9af0f535.js",
+      "static/chunks/[next]_entry_page-loader_ts_998b54f8._.js",
+      "static/chunks/7a697_react-dom_7472c046._.js",
+      "static/chunks/7a697_db85a926._.js",
+      "static/chunks/[root-of-the-server]__31dbbee4._.js",
+      "static/chunks/2737e_Modul 295_Projekt_Valorant-Infos_Valorant-Infos_backend_pages__app_2da965e7._.js",
+      "static/chunks/14f94_Modul 295_Projekt_Valorant-Infos_Valorant-Infos_backend_pages__app_05f7395d._.js"
+    ],
+    "/_error": [
+      "static/chunks/7a697_next_dist_compiled_262d8782._.js",
+      "static/chunks/7a697_next_dist_shared_lib_aeb4b96c._.js",
+      "static/chunks/7a697_next_dist_client_bee5c7de._.js",
+      "static/chunks/7a697_next_dist_03c6647d._.js",
+      "static/chunks/7a697_next_error_330cfe77.js",
+      "static/chunks/[next]_entry_page-loader_ts_1813a6f1._.js",
+      "static/chunks/7a697_react-dom_7472c046._.js",
+      "static/chunks/7a697_db85a926._.js",
+      "static/chunks/[root-of-the-server]__da323deb._.js",
+      "static/chunks/2737e_Modul 295_Projekt_Valorant-Infos_Valorant-Infos_backend_pages__error_2da965e7._.js",
+      "static/chunks/14f94_Modul 295_Projekt_Valorant-Infos_Valorant-Infos_backend_pages__error_fc191330._.js"
+    ]
+  },
+  "devFiles": [],
+  "polyfillFiles": [
+    "static/chunks/7a697_next_dist_build_polyfills_polyfill-nomodule.js"
+  ],
+  "lowPriorityFiles": [
+    "static/development/_ssgManifest.js",
+    "static/development/_buildManifest.js"
+  ],
+  "rootMainFiles": [
+    "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_4cfa4921._.js",
+    "static/chunks/7a697_next_dist_compiled_react-dom_9bd64c57._.js",
+    "static/chunks/7a697_next_dist_compiled_react-server-dom-turbopack_7565b6f3._.js",
+    "static/chunks/7a697_next_dist_compiled_next-devtools_index_dd22a58c.js",
+    "static/chunks/7a697_next_dist_compiled_b978528a._.js",
+    "static/chunks/7a697_next_dist_client_86b88f5d._.js",
+    "static/chunks/7a697_next_dist_ca720ac9._.js",
+    "static/chunks/7a697_@swc_helpers_cjs_c7d7cdff._.js",
+    "static/chunks/80b94_IMS_IMS Module_Modul 295_Projekt_Valorant-Infos_Valorant-Infos_backend_a0ff3932._.js",
+    "static/chunks/358b3_IMS_IMS Module_Modul 295_Projekt_Valorant-Infos_Valorant-Infos_backend_3e376b19._.js"
+  ]
+}

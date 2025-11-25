@@ -1,34 +1,22 @@
+import { NextRequest } from 'next/server';
+import { corsResponse, corsHeaders } from '@/lib/cors';
+
 export async function OPTIONS() {
-  return new Response(null, {
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
-    },
-  });
+  return new Response(null, { status: 204, headers: corsHeaders() });
 }
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export async function GET(req: NextRequest) {
+  try {
+    const response = await fetch('https://valorant-api.com/v1/weapons');
+    const data = await response.json();
 
-export async function GET() {
-  const valorantRes = await fetch("https://valorant-api.com/v1/weapons");
+    if (data.status !== 200) {
+      return corsResponse({ error: 'Fehler beim Abrufen der Weapons' }, 500);
+    }
 
-  const json: { data: unknown[] } = await valorantRes.json();
-
-  const data = json.data.map((w) => {
-    const weapon = w as {
-      displayName: string;
-      displayIcon: string;
-    };
-
-    return {
-      name: weapon.displayName,
-      icon: weapon.displayIcon,
-    };
-  });
-
-  return new Response(JSON.stringify(data), {
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Content-Type": "application/json",
-    },
-  });
+    return corsResponse(data);
+  } catch (error) {
+    console.error('Weapons fetch error:', error);
+    return corsResponse({ error: 'Weapons konnten nicht geladen werden' }, 500);
+  }
 }

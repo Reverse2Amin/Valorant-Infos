@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 46, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/salem/Documents/IMS/IMS%20Module/Modul%20295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/proxy.ts"],"sourcesContent":["import { NextResponse } from 'next/server'\r\n\r\nexport async function proxy() {\r\n  const res = NextResponse.next();\r\n  // TODO: Add CORS middleware logic here.\r\n  return res;\r\n}\r\n\r\nexport const config = {\r\n  matcher: '/api/:path*',\r\n}\r\n\r\n"],"names":[],"mappings":";;;;;;AAAA;;AAEO,eAAe;IACpB,MAAM,MAAM,+PAAY,CAAC,IAAI;IAC7B,wCAAwC;IACxC,OAAO;AACT;AAEO,MAAM,SAAS;IACpB,SAAS;AACX","debugId":null}}]
+}
