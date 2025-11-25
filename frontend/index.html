@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valorant Hub</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <nav id="navbar">
+        <div class="nav-container">
+            <h1 class="logo">VALORANT HUB</h1>
+            <div class="nav-links">
+                <a href="#" data-view="agents" class="nav-link active">Agents</a>
+                <a href="#" data-view="weapons" class="nav-link">Weapons</a>
+                <a href="#" data-view="maps" class="nav-link">Maps</a>
+                <a href="#" data-view="favorites" class="nav-link" id="favorites-link" style="display: none;">Favoriten</a>
+                <a href="#" data-view="admin" class="nav-link" id="admin-link" style="display: none;">Admin</a>
+            </div>
+            <div class="auth-section">
+                <div id="auth-buttons">
+                    <button id="login-btn" class="btn btn-secondary">Login</button>
+                    <button id="register-btn" class="btn btn-primary">Registrieren</button>
+                </div>
+                <div id="user-info" style="display: none;">
+                    <span id="username-display"></span>
+                    <button id="logout-btn" class="btn btn-secondary">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section id="agents-view" class="view active">
+            <div class="container">
+                <h2>Agents</h2>
+                <div id="agents-grid" class="grid"></div>
+            </div>
+        </section>
+
+        <section id="weapons-view" class="view">
+            <div class="container">
+                <h2>Weapons</h2>
+                <div id="weapons-grid" class="grid"></div>
+            </div>
+        </section>
+
+        <section id="maps-view" class="view">
+            <div class="container">
+                <h2>Maps</h2>
+                <div id="maps-grid" class="grid"></div>
+            </div>
+        </section>
+
+        <section id="favorites-view" class="view">
+            <div class="container">
+                <h2>Meine Favoriten</h2>
+                <div id="favorites-grid" class="grid"></div>
+            </div>
+        </section>
+
+        <section id="admin-view" class="view">
+            <div class="container">
+                <h2>Admin Panel - Alle User</h2>
+                <div id="users-table"></div>
+            </div>
+        </section>
+
+        <section id="agent-detail-view" class="view">
+            <div class="container">
+                <button id="back-to-agents" class="btn btn-secondary">← Zurück zu Agents</button>
+                <div id="agent-detail-content"></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Auth Modal -->
+    <div id="auth-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modal-title">Login</h2>
+            <form id="auth-form">
+                <input type="text" id="auth-username" placeholder="Username" required>
+                <input type="password" id="auth-password" placeholder="Passwort" required>
+                <button type="submit" class="btn btn-primary">Absenden</button>
+                <p id="auth-error" class="error"></p>
+            </form>
+            <div id="delete-account-section" style="display: none; margin-top: 20px;">
+                <hr>
+                <h3>Account löschen</h3>
+                <p>Warnung: Diese Aktion kann nicht rückgängig gemacht werden!</p>
+                <button id="delete-account-btn" class="btn btn-danger">Account löschen</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="src/main.ts"></script>
+</body>
+</html>

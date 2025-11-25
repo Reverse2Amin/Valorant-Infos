@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 14, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/salem/Documents/IMS/IMS%20Module/Modul%20295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/app/page.tsx"],"sourcesContent":["import { getAgents, getMaps, getWeapons } from \"@/lib/valorant\";\r\n\r\nexport default async function ValPage() {\r\n  const [agents, maps, weapons] = await Promise.all([\r\n    fetchAgents(),\r\n    fetchMaps(),\r\n    fetchWeapons(),\r\n    \r\n  ]);\r\n\r\n  const data = { agents, maps, weapons};\r\n\r\n  return (\r\n    <pre style={{ color: \"white\", background: \"#0a0a0f\", padding: \"20px\", fontSize: \"14px\"}}>\r\n        {JSON.stringify(data, null, 2)}\r\n    </pre>\r\n    );\r\n}"],"names":[],"mappings":";;;;;;AAEe,eAAe;IAC5B,MAAM,CAAC,QAAQ,MAAM,QAAQ,GAAG,MAAM,QAAQ,GAAG,CAAC;QAChD;QACA;QACA;KAED;IAED,MAAM,OAAO;QAAE;QAAQ;QAAM;IAAO;IAEpC,qBACE,+VAAC;QAAI,OAAO;YAAE,OAAO;YAAS,YAAY;YAAW,SAAS;YAAQ,UAAU;QAAM;kBACjF,KAAK,SAAS,CAAC,MAAM,MAAM;;;;;;AAGpC","debugId":null}}]
+}

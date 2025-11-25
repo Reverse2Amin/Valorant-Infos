@@ -1,0 +1,275 @@
+[00:00:01.600] Server  LOG      ✓ Ready in 1237ms
+[00:00:05.825] Server  ERROR    ⨯ ./Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/app/page.tsx:1:1
+Export fetchAgents doesn't exist in target module
+> 1 | import { fetchAgents, fetchMaps, fetchWeapons } from "@/lib/valorant";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export default async function ValPage() {
+  4 |   const [agents, maps, weapons] = await Promise.all([
+
+The export fetchAgents was not found in module [project]/Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/lib/valorant.ts [app-rsc] (ecmascript).
+Did you mean to import getAgents?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+
+
+./Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/app/page.tsx:1:1
+Export fetchMaps doesn't exist in target module
+> 1 | import { fetchAgents, fetchMaps, fetchWeapons } from "@/lib/valorant";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export default async function ValPage() {
+  4 |   const [agents, maps, weapons] = await Promise.all([
+
+The export fetchMaps was not found in module [project]/Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/lib/valorant.ts [app-rsc] (ecmascript).
+Did you mean to import getAgents?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+
+
+./Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/app/page.tsx:1:1
+Export fetchWeapons doesn't exist in target module
+> 1 | import { fetchAgents, fetchMaps, fetchWeapons } from "@/lib/valorant";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export default async function ValPage() {
+  4 |   const [agents, maps, weapons] = await Promise.all([
+
+The export fetchWeapons was not found in module [project]/Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/lib/valorant.ts [app-rsc] (ecmascript).
+Did you mean to import getAgents?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+
+[00:00:07.379] Browser ERROR   uncaughtError: Error: ./Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/app/page.tsx:1:1
+Export fetchAgents doesn't exist in target module
+> 1 | import { fetchAgents, fetchMaps, fetchWeapons } from "@/lib/valorant";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export default async function ValPage() {
+  4 |   const [agents, maps, weapons] = await Promise.all([
+
+The export fetchAgents was not found in module [project]/Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/lib/valorant.ts [app-rsc] (ecmascript).
+Did you mean to import getAgents?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+
+[00:00:07.582] Browser ERROR   ./Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/app/page.tsx:1:1
+Export fetchAgents doesn't exist in target module
+> 1 | import { fetchAgents, fetchMaps, fetchWeapons } from "@/lib/valorant";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export default async function ValPage() {
+  4 |   const [agents, maps, weapons] = await Promise.all([
+
+The export fetchAgents was not found in module [project]/Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/lib/valorant.ts [app-rsc] (ecmascript).
+Did you mean to import getAgents?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+[00:00:07.582] Browser ERROR   ./Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/app/page.tsx:1:1
+Export fetchMaps doesn't exist in target module
+> 1 | import { fetchAgents, fetchMaps, fetchWeapons } from "@/lib/valorant";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export default async function ValPage() {
+  4 |   const [agents, maps, weapons] = await Promise.all([
+
+The export fetchMaps was not found in module [project]/Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/lib/valorant.ts [app-rsc] (ecmascript).
+Did you mean to import getAgents?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+[00:00:07.582] Browser ERROR   ./Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/app/page.tsx:1:1
+Export fetchWeapons doesn't exist in target module
+> 1 | import { fetchAgents, fetchMaps, fetchWeapons } from "@/lib/valorant";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export default async function ValPage() {
+  4 |   const [agents, maps, weapons] = await Promise.all([
+
+The export fetchWeapons was not found in module [project]/Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/lib/valorant.ts [app-rsc] (ecmascript).
+Did you mean to import getAgents?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+[00:00:08.008] Browser ERROR   ./Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/app/page.tsx:1:1
+Export fetchAgents doesn't exist in target module
+> 1 | import { fetchAgents, fetchMaps, fetchWeapons } from "@/lib/valorant";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export default async function ValPage() {
+  4 |   const [agents, maps, weapons] = await Promise.all([
+
+The export fetchAgents was not found in module [project]/Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/lib/valorant.ts [app-rsc] (ecmascript).
+Did you mean to import getAgents?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+[00:00:08.008] Browser ERROR   ./Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/app/page.tsx:1:1
+Export fetchMaps doesn't exist in target module
+> 1 | import { fetchAgents, fetchMaps, fetchWeapons } from "@/lib/valorant";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export default async function ValPage() {
+  4 |   const [agents, maps, weapons] = await Promise.all([
+
+The export fetchMaps was not found in module [project]/Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/lib/valorant.ts [app-rsc] (ecmascript).
+Did you mean to import getAgents?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+[00:00:08.008] Browser ERROR   ./Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/app/page.tsx:1:1
+Export fetchWeapons doesn't exist in target module
+> 1 | import { fetchAgents, fetchMaps, fetchWeapons } from "@/lib/valorant";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export default async function ValPage() {
+  4 |   const [agents, maps, weapons] = await Promise.all([
+
+The export fetchWeapons was not found in module [project]/Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/lib/valorant.ts [app-rsc] (ecmascript).
+Did you mean to import getAgents?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+[00:00:55.652] Server  LOG      ✓ Compiled in 35ms
+[00:00:56.021] Server  ERROR    ⨯ ReferenceError: fetchAgents is not defined
+[00:00:56.271] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:57.141] Browser ERROR   uncaughtError: ReferenceError: fetchAgents is not defined
+[00:01:25.138] Browser ERROR   ./Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/app/page.tsx:1:1
+Export getMaps doesn't exist in target module
+> 1 | import { getAgents, getMaps, getWeapons } from "@/lib/valorant";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export default async function ValPage() {
+  4 |   const [agents, maps, weapons] = await Promise.all([
+
+The export getMaps was not found in module [project]/Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/lib/valorant.ts [app-rsc] (ecmascript).
+Did you mean to import getAgents?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+[00:01:25.138] Browser ERROR   ./Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/app/page.tsx:1:1
+Export getWeapons doesn't exist in target module
+> 1 | import { getAgents, getMaps, getWeapons } from "@/lib/valorant";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export default async function ValPage() {
+  4 |   const [agents, maps, weapons] = await Promise.all([
+
+The export getWeapons was not found in module [project]/Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/lib/valorant.ts [app-rsc] (ecmascript).
+Did you mean to import getAgents?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+[00:01:27.140] Browser ERROR   ./Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/app/page.tsx:1:1
+Export getMaps doesn't exist in target module
+> 1 | import { getAgents, getMaps, getWeapons } from "@/lib/valorant";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export default async function ValPage() {
+  4 |   const [agents, maps, weapons] = await Promise.all([
+
+The export getMaps was not found in module [project]/Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/lib/valorant.ts [app-rsc] (ecmascript).
+Did you mean to import getAgents?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+[00:01:27.140] Browser ERROR   ./Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/app/page.tsx:1:1
+Export getWeapons doesn't exist in target module
+> 1 | import { getAgents, getMaps, getWeapons } from "@/lib/valorant";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export default async function ValPage() {
+  4 |   const [agents, maps, weapons] = await Promise.all([
+
+The export getWeapons was not found in module [project]/Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/lib/valorant.ts [app-rsc] (ecmascript).
+Did you mean to import getAgents?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+[00:01:44.572] Server  ERROR    ⨯ ./Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/app/page.tsx:1:1
+Export getMaps doesn't exist in target module
+> 1 | import { getAgents, getMaps, getWeapons } from "@/lib/valorant";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export default async function ValPage() {
+  4 |   const [agents, maps, weapons] = await Promise.all([
+
+The export getMaps was not found in module [project]/Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/lib/valorant.ts [app-rsc] (ecmascript).
+Did you mean to import getAgents?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+
+
+./Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/app/page.tsx:1:1
+Export getWeapons doesn't exist in target module
+> 1 | import { getAgents, getMaps, getWeapons } from "@/lib/valorant";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export default async function ValPage() {
+  4 |   const [agents, maps, weapons] = await Promise.all([
+
+The export getWeapons was not found in module [project]/Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/lib/valorant.ts [app-rsc] (ecmascript).
+Did you mean to import getAgents?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+
+[00:01:44.721] Browser ERROR   uncaughtError: Error: ./Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/app/page.tsx:1:1
+Export getMaps doesn't exist in target module
+> 1 | import { getAgents, getMaps, getWeapons } from "@/lib/valorant";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export default async function ValPage() {
+  4 |   const [agents, maps, weapons] = await Promise.all([
+
+The export getMaps was not found in module [project]/Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/lib/valorant.ts [app-rsc] (ecmascript).
+Did you mean to import getAgents?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+
+
+[00:01:44.865] Browser ERROR   ./Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/app/page.tsx:1:1
+Export getMaps doesn't exist in target module
+> 1 | import { getAgents, getMaps, getWeapons } from "@/lib/valorant";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export default async function ValPage() {
+  4 |   const [agents, maps, weapons] = await Promise.all([
+
+The export getMaps was not found in module [project]/Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/lib/valorant.ts [app-rsc] (ecmascript).
+Did you mean to import getAgents?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+[00:01:44.865] Browser ERROR   ./Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/app/page.tsx:1:1
+Export getWeapons doesn't exist in target module
+> 1 | import { getAgents, getMaps, getWeapons } from "@/lib/valorant";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export default async function ValPage() {
+  4 |   const [agents, maps, weapons] = await Promise.all([
+
+The export getWeapons was not found in module [project]/Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/lib/valorant.ts [app-rsc] (ecmascript).
+Did you mean to import getAgents?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+[00:01:44.865] Browser ERROR   ./Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/app/page.tsx:1:1
+Export getMaps doesn't exist in target module
+> 1 | import { getAgents, getMaps, getWeapons } from "@/lib/valorant";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export default async function ValPage() {
+  4 |   const [agents, maps, weapons] = await Promise.all([
+
+The export getMaps was not found in module [project]/Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/lib/valorant.ts [app-rsc] (ecmascript).
+Did you mean to import getAgents?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+[00:01:44.865] Browser ERROR   ./Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/app/page.tsx:1:1
+Export getWeapons doesn't exist in target module
+> 1 | import { getAgents, getMaps, getWeapons } from "@/lib/valorant";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export default async function ValPage() {
+  4 |   const [agents, maps, weapons] = await Promise.all([
+
+The export getWeapons was not found in module [project]/Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/lib/valorant.ts [app-rsc] (ecmascript).
+Did you mean to import getAgents?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+[00:02:20.134] Browser ERROR   ./Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/app/page.tsx:1:1
+Export getMaps doesn't exist in target module
+> 1 | import { getAgents, getMaps, getWeapons } from "@/lib/valorant";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export default async function ValPage() {
+  4 |   const [agents, maps, weapons] = await Promise.all([
+
+The export getMaps was not found in module [project]/Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/lib/valorant.ts [app-rsc] (ecmascript).
+Did you mean to import getAgents?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.
+[00:02:20.134] Browser ERROR   ./Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/app/page.tsx:1:1
+Export getWeapons doesn't exist in target module
+> 1 | import { getAgents, getMaps, getWeapons } from "@/lib/valorant";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | export default async function ValPage() {
+  4 |   const [agents, maps, weapons] = await Promise.all([
+
+The export getWeapons was not found in module [project]/Documents/IMS/IMS Module/Modul 295/Projekt/Valorant-Infos/Valorant-Infos/backend/src/lib/valorant.ts [app-rsc] (ecmascript).
+Did you mean to import getAgents?
+All exports of the module are statically known (It doesn't have dynamic exports). So it's known statically that the requested export doesn't exist.

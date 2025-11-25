@@ -1,36 +1,22 @@
+import { NextRequest } from 'next/server';
+import { corsResponse, corsHeaders } from '@/lib/cors';
+
 export async function OPTIONS() {
-  return new Response(null, {
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
-    },
-  });
+  return new Response(null, { status: 204, headers: corsHeaders() });
 }
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export async function GET(req: NextRequest) {
+  try {
+    const response = await fetch('https://valorant-api.com/v1/maps');
+    const data = await response.json();
 
-export async function GET() {
-  const valorantRes = await fetch("https://valorant-api.com/v1/maps");
+    if (data.status !== 200) {
+      return corsResponse({ error: 'Fehler beim Abrufen der Maps' }, 500);
+    }
 
-  const json: { data: unknown[] } = await valorantRes.json();
-
-  const data = json.data.map((m) => {
-    const map = m as {
-      displayName: string;
-      coordinates: string;
-      listViewIconTall: string;
-    };
-
-    return {
-      name: map.displayName,
-      coordinates: map.coordinates,
-      iconTall: map.listViewIconTall,
-    };
-  });
-
-  return new Response(JSON.stringify(data), {
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Content-Type": "application/json",
-    },
-  });
+    return corsResponse(data);
+  } catch (error) {
+    console.error('Maps fetch error:', error);
+    return corsResponse({ error: 'Maps konnten nicht geladen werden' }, 500);
+  }
 }
