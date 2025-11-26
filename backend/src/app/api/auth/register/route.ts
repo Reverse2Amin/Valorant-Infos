@@ -3,34 +3,35 @@ import { prisma } from '@/lib/db';
 import { corsResponse } from '@/lib/cors';
 import bcrypt from 'bcrypt';
 
-// WICHTIG für CORS
-export async function OPTIONS() { return corsResponse({}, 204); }
+export async function OPTIONS() {
+  return corsResponse(new NextResponse(null, { status: 204 }));
+}
 
 export async function POST(req: Request) {
-  console.log("--> REGISTER Anfrage erhalten"); 
+  console.log("--> REGISTER Anfrage empfangen");
 
   try {
     const body = await req.json();
-    console.log("Daten vom Frontend:", body); 
+    console.log("Daten:", body);
 
-    const { username, password, name, email } = body;
+   
+    const { username, password, email, name } = body;
 
-    // Validierung: Nur Username & Passwort sind Pflicht
     if (!username || !password) {
-        console.log("Fehler: Daten fehlen");
+        console.log("Fehler: Username/Passwort fehlt");
         return corsResponse(NextResponse.json({ error: 'Username und Passwort fehlen' }, { status: 400 }));
     }
 
-    // Prüfen
+   
     const existing = await prisma.user.findUnique({ where: { username } });
     if (existing) {
-        console.log("Fehler: User existiert schon");
-        return corsResponse(NextResponse.json({ error: 'Username vergeben' }, { status: 409 }));
+        console.log("Fehler: Username vergeben");
+        return corsResponse(NextResponse.json({ error: 'Username bereits vergeben' }, { status: 409 }));
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
     
-    // Erstellen (Email optional, falls leer machen wir null)
+ 
     const user = await prisma.user.create({
       data: { 
           username, 
@@ -40,11 +41,12 @@ export async function POST(req: Request) {
       },
     });
 
-    console.log("User erstellt:", user.id);
-    return corsResponse(NextResponse.json({ message: 'Erfolgreich registriert' }));
+    console.log("User erstellt, ID:", user.id);
+    return corsResponse(NextResponse.json({ message: 'OK' }));
 
   } catch (error) {
-      console.error("CRITICAL REGISTER ERROR:", error);
-      return corsResponse(NextResponse.json({ error: 'Server Fehler' }, { status: 500 }));
+      console.error("SERVER ERROR REGISTER:", error);
+      
+      return corsResponse(NextResponse.json({ error: 'Server Fehler beim Erstellen' }, { status: 500 }));
   }
 }

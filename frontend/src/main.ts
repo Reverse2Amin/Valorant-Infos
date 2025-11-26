@@ -1,501 +1,482 @@
-// API Base URL
 const API_URL = 'http://localhost:3000/api';
 
-// State
-let currentUser: { id: string; username: string; isAdmin: boolean } | null = null;
-let agents: any[] = [];
-let weapons: any[] = [];
-let maps: any[] = [];
-let favorites: any[] = [];
+let token = localStorage.getItem('token');
+let currentUser: { username: string; isAdmin: boolean } | null = null;
 
-// Auth Token Management
-function getToken(): string | null {
-    return localStorage.getItem('token');
-}
+let allAgents: any[] = [];
+let allWeapons: any[] = [];
+let allMaps: any[] = [];
+let myFavorites: any[] = [];
 
-function setToken(token: string): void {
-    localStorage.setItem('token', token);
-}
-
-function removeToken(): void {
-    localStorage.removeItem('token');
-}
-
-// API Calls
-async function fetchWithAuth(url: string, options: RequestInit = {}): Promise<Response> {
-    const token = getToken();
+document.addEventListener('DOMContentLoaded', async () => {
     if (token) {
-        options.headers = {
-            ...options.headers,
-            'Authorization': `Bearer ${token}`,
-        };
+        try {
+            const base64 = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+            const payload = JSON.parse(window.atob(base64));
+            currentUser = { username: payload.username, isAdmin: payload.isAdmin };
+        } catch (e) { logout(); }
     }
-    return fetch(url, options);
-}
 
-async function register(username: string, password: string): Promise<any> {
-    const response = await fetch(`${API_URL}/auth/register`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
-    });
-    return response.json();
-}
+    updateAuthUI();
+    setupEventListeners();
 
-async function login(username: string, password: string): Promise<any> {
-    const response = await fetch(`${API_URL}/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
-    });
-    return response.json();
-}
+    console.log("🚀 Starte Datenabruf...");
+    
+    await Promise.all([
+        fetchAgents(),
+        fetchWeapons(),
+        fetchMaps()
+    ]);
+    
+    if (token) {
+        await fetchFavorites();
+        renderAgents();
+    }
+});
 
-async function deleteAccount(): Promise<any> {
-    const response = await fetchWithAuth(`${API_URL}/auth/delete`, {
-        method: 'DELETE',
-    });
-    return response.json();
-}
-
-async function fetchAgents(): Promise<void> {
-    const response = await fetch(`${API_URL}/valorant/agents`);
-    const data = await response.json();
-    agents = data.data || [];
-    renderAgents();
-}
-
-async function fetchWeapons(): Promise<void> {
-    const response = await fetch(`${API_URL}/valorant/weapons`);
-    const data = await response.json();
-    weapons = data.data || [];
-    renderWeapons();
-}
-
-async function fetchMaps(): Promise<void> {
-    const response = await fetch(`${API_URL}/valorant/maps`);
-    const data = await response.json();
-    maps = data.data || [];
-    renderMaps();
-}
-
-async function fetchFavorites(): Promise<void> {
-    if (!currentUser) return;
-    const response = await fetchWithAuth(`${API_URL}/favorites`);
-    if (response.ok) {
-        favorites = await response.json();
-        renderFavorites();
+async function fetchAgents() {
+    const grid = document.getElementById('agents-grid');
+    try {
+        const res = await fetch(`${API_URL}/valorant/agents`);
+        if (!res.ok) throw new Error(`Fehler ${res.status}`);
+        const json = await res.json();
+        allAgents = Array.isArray(json) ? json : json.data || [];
+        renderAgents();
+    } catch(e) { 
+        console.error("Agents Error:", e);
+        if(grid) grid.innerHTML = `<p style="color:red">Fehler beim Laden der Agents: ${(e as Error).message}</p>`; 
     }
 }
 
-async function addFavorite(agentUuid: string, agentName: string): Promise<boolean> {
-    const response = await fetchWithAuth(`${API_URL}/favorites`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ agentUuid, agentName }),
-    });
-    return response.ok;
-}
-
-async function removeFavorite(agentUuid: string): Promise<boolean> {
-    const response = await fetchWithAuth(`${API_URL}/favorites`, {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ agentUuid }),
-    });
-    return response.ok;
-}
-
-async function fetchUsers(): Promise<any[]> {
-    const response = await fetchWithAuth(`${API_URL}/admin/users`);
-    if (response.ok) {
-        return response.json();
+async function fetchWeapons() {
+    const grid = document.getElementById('weapons-grid');
+    try {
+        console.log("Lade Waffen...");
+        const res = await fetch(`${API_URL}/valorant/weapons`);
+        
+        if (!res.ok) {
+            throw new Error(`Backend Route fehlt? Status: ${res.status}`);
+        }
+        
+        const json = await res.json();
+        allWeapons = Array.isArray(json) ? json : json.data || [];
+        console.log(`Waffen geladen: ${allWeapons.length}`);
+        renderWeapons();
+    } catch(e) { 
+        console.error("Weapons Error:", e);
+        if(grid) grid.innerHTML = `<p style="color:red">Konnte Waffen nicht laden.<br>Fehler: ${(e as Error).message}<br>Existiert <code>backend/src/app/api/valorant/weapons/route.ts</code>?</p>`;
     }
-    return [];
 }
 
-// UI Rendering
-function renderAgents(): void {
-    const grid = document.getElementById('agents-grid')!;
-    grid.innerHTML = agents.map(agent => {
-        const isFavorite = favorites.some(f => f.agentUuid === agent.uuid);
+async function fetchMaps() {
+    const grid = document.getElementById('maps-grid');
+    try {
+        console.log("Lade Maps...");
+        const res = await fetch(`${API_URL}/valorant/maps`);
+        
+        if (!res.ok) {
+            throw new Error(`Backend Route fehlt? Status: ${res.status}`);
+        }
+
+        const json = await res.json();
+        allMaps = Array.isArray(json) ? json : json.data || [];
+        console.log(`Maps geladen: ${allMaps.length}`);
+        renderMaps();
+    } catch(e) { 
+        if(grid) grid.innerHTML = `<p style="color:red">Konnte Maps nicht laden.<br>Fehler: ${(e as Error).message}</p>`;
+    }
+}
+
+async function fetchFavorites() {
+    if (!token) return;
+    try {
+        const res = await fetch(`${API_URL}/favorites`, { headers: { 'Authorization': `Bearer ${token}` } });
+        if (res.ok) {
+            myFavorites = await res.json();
+            renderAgents();
+            renderFavorites();
+        }
+    } catch(e) {}
+}
+
+async function fetchUsers() {
+    if (!token || !currentUser?.isAdmin) return;
+    try {
+        const res = await fetch(`${API_URL}/admin/users`, { headers: { 'Authorization': `Bearer ${token}` } });
+        const data = await res.json();
+        renderAdminPanel(data);
+    } catch(e) {}
+}
+
+function renderAgents() {
+    const grid = document.getElementById('agents-grid');
+    if (!grid) return;
+    if (allAgents.length === 0) { grid.innerHTML = '<p>Keine Agents gefunden.</p>'; return; }
+
+    grid.innerHTML = allAgents.map(agent => {
+        const isFav = myFavorites.some(f => f.itemUuid === agent.uuid);
+        const img = agent.image || agent.displayIcon;
+        const name = agent.name || agent.displayName;
+
         return `
-            <div class="card" data-agent-id="${agent.uuid}">
-                ${currentUser ? `<button class="favorite-btn ${isFavorite ? 'active' : ''}" data-agent-uuid="${agent.uuid}" data-agent-name="${agent.displayName}">
-                    ${isFavorite ? '❤️' : '🤍'}
-                </button>` : ''}
-                <img src="${agent.displayIcon}" alt="${agent.displayName}" class="card-image">
+            <div class="card">
+                <img src="${img}" class="card-image agent-clickable" data-uuid="${agent.uuid}" alt="${name}">
                 <div class="card-content">
-                    <h3 class="card-title">${agent.displayName}</h3>
-                    <p class="card-subtitle">${agent.role?.displayName || 'Unknown'}</p>
-                    <p class="card-description">${agent.description?.substring(0, 100)}...</p>
+                    <h3 class="card-title">${name}</h3>
+                    <div class="card-actions">
+                        ${isFav ? '<span style="font-size:1.5rem; color:#ff4655;">❤️</span>' : ''}
+                    </div>
                 </div>
             </div>
         `;
     }).join('');
-
-    // Add click handlers
-    document.querySelectorAll('.card[data-agent-id]').forEach(card => {
-        card.addEventListener('click', (e) => {
-            const target = e.target as HTMLElement;
-            if (!target.classList.contains('favorite-btn')) {
-                const agentId = (card as HTMLElement).dataset.agentId!;
-                showAgentDetail(agentId);
-            }
-        });
-    });
-
-    // Add favorite button handlers
-    document.querySelectorAll('.favorite-btn').forEach(btn => {
-        btn.addEventListener('click', async (e) => {
-            e.stopPropagation();
-            const button = e.currentTarget as HTMLElement;
-            const agentUuid = button.dataset.agentUuid!;
-            const agentName = button.dataset.agentName!;
-            const isFavorite = button.classList.contains('active');
-
-            if (isFavorite) {
-                const success = await removeFavorite(agentUuid);
-                if (success) {
-                    button.classList.remove('active');
-                    button.textContent = '🤍';
-                    await fetchFavorites();
-                }
-            } else {
-                const success = await addFavorite(agentUuid, agentName);
-                if (success) {
-                    button.classList.add('active');
-                    button.textContent = '❤️';
-                    await fetchFavorites();
-                }
-            }
-        });
-    });
+    addGridListeners();
 }
 
-function renderWeapons(): void {
-    const grid = document.getElementById('weapons-grid')!;
-    grid.innerHTML = weapons.map(weapon => `
-        <div class="card">
-            <img src="${weapon.displayIcon || weapon.killStreamIcon}" alt="${weapon.displayName}" class="card-image">
-            <div class="card-content">
-                <h3 class="card-title">${weapon.displayName}</h3>
-                <p class="card-subtitle">Kategorie: ${weapon.category?.replace('EEquippableCategory::', '')}</p>
-                ${weapon.weaponStats ? `
-                    <p class="card-description">
-                        Feuerrate: ${weapon.weaponStats.fireRate || 'N/A'}<br>
-                        Magazin: ${weapon.weaponStats.magazineSize || 'N/A'}<br>
-                        ${weapon.shopData ? `Preis: ${weapon.shopData.cost} Credits` : ''}
-                    </p>
-                ` : ''}
-            </div>
-        </div>
-    `).join('');
-}
-
-function renderMaps(): void {
-    const grid = document.getElementById('maps-grid')!;
-    grid.innerHTML = maps.map(map => `
-        <div class="card">
-            <img src="${map.splash}" alt="${map.displayName}" class="card-image">
-            <div class="card-content">
-                <h3 class="card-title">${map.displayName}</h3>
-                <p class="card-description">
-                    Koordinaten: ${map.coordinates || 'Unbekannt'}
-                </p>
-            </div>
-        </div>
-    `).join('');
-}
-
-function renderFavorites(): void {
-    const grid = document.getElementById('favorites-grid')!;
-    if (favorites.length === 0) {
-        grid.innerHTML = '<p style="color: var(--text-secondary);">Du hast noch keine Favoriten.</p>';
+function renderWeapons() {
+    const grid = document.getElementById('weapons-grid');
+    if (!grid) return;
+    
+    if (allWeapons.length === 0) {
+        grid.innerHTML = "<p>Lade Waffen...</p>";
         return;
     }
 
-    const favoriteAgents = favorites.map(fav => {
-        const agent = agents.find(a => a.uuid === fav.agentUuid);
-        return agent;
-    }).filter(Boolean);
+    grid.innerHTML = allWeapons.map(w => {
+        const price = w.shopData ? w.shopData.cost : 0;
+        const category = w.shopData ? w.shopData.categoryText : 'Melee';
+        
+        const fireRate = w.weaponStats ? w.weaponStats.fireRate : '-';
+        const magazine = w.weaponStats ? w.weaponStats.magazineSize : '-';
+        
+        const damage = w.weaponStats && w.weaponStats.damageRanges && w.weaponStats.damageRanges.length > 0
+            ? w.weaponStats.damageRanges[0].bodyDamage 
+            : '-';
 
-    grid.innerHTML = favoriteAgents.map(agent => `
-        <div class="card" data-agent-id="${agent.uuid}">
-            <button class="favorite-btn active" data-agent-uuid="${agent.uuid}" data-agent-name="${agent.displayName}">❤️</button>
-            <img src="${agent.displayIcon}" alt="${agent.displayName}" class="card-image">
+        return `
+            <div class="card">
+                <div class="weapon-price">${price} ¤</div>
+                <div class="weapon-category">${category}</div>
+
+                <img src="${w.displayIcon}" class="card-image" style="cursor: default; padding: 20px;">
+                
+                <div class="card-content">
+                    <h3 class="card-title">${w.displayName}</h3>
+                    
+                    <div class="weapon-stats-grid">
+                        <div class="stat-row">
+                            <span class="stat-label">Schaden</span>
+                            <span class="stat-value">${damage}</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Magazin</span>
+                            <span class="stat-value">${magazine}</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Feuerrate</span>
+                            <span class="stat-value">${fireRate}</span>
+                        </div>
+                        <div class="stat-row">
+                            <span class="stat-label">Typ</span>
+                            <span class="stat-value">${category}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+    }).join('');
+}
+
+function renderMaps() {
+    const grid = document.getElementById('maps-grid');
+    if(!grid) return;
+
+    if (allMaps.length === 0) {
+        grid.innerHTML = "<p>Keine Maps gefunden.</p>";
+        return;
+    }
+
+    grid.innerHTML = allMaps.map(m => `
+        <div class="card">
+            <img src="${m.splash || m.displayIcon}" class="card-image" style="cursor:default;">
             <div class="card-content">
-                <h3 class="card-title">${agent.displayName}</h3>
-                <p class="card-subtitle">${agent.role?.displayName || 'Unknown'}</p>
+                <h3 class="card-title">${m.displayName}</h3>
+                <p>${m.coordinates || ''}</p>
             </div>
-        </div>
-    `).join('');
+        </div>`).join('');
+}
 
-    // Add handlers
-    document.querySelectorAll('.card[data-agent-id]').forEach(card => {
-        card.addEventListener('click', (e) => {
-            const target = e.target as HTMLElement;
-            if (!target.classList.contains('favorite-btn')) {
-                const agentId = (card as HTMLElement).dataset.agentId!;
-                showAgentDetail(agentId);
-            }
+function renderFavorites() {
+    const grid = document.getElementById('favorites-grid');
+    if (!grid) return;
+    if (myFavorites.length === 0) { grid.innerHTML = '<p>Keine Favoriten.</p>'; return; }
+
+    grid.innerHTML = myFavorites.map(fav => `
+        <div class="card">
+            <img src="${fav.image}" class="card-image agent-clickable" data-uuid="${fav.itemUuid}">
+            <div class="card-content">
+                <h3 class="card-title">${fav.name}</h3>
+                <button class="btn btn-danger remove-fav" data-uuid="${fav.itemUuid}" style="width:100%; margin-top:10px;">Entfernen</button>
+            </div>
+        </div>`).join('');
+
+    addGridListeners();
+    grid.querySelectorAll('.remove-fav').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleFavorite((e.target as HTMLElement).dataset.uuid!);
         });
     });
+}
 
-    document.querySelectorAll('.favorite-btn').forEach(btn => {
+function renderAdminPanel(users: any[]) {
+    const div = document.getElementById('users-table');
+    if(div) div.innerHTML = `
+        <table class="table">
+            <tr><th>User</th><th>Email</th><th>Rolle</th><th>Aktion</th></tr>
+            ${users.map(u => `
+                <tr>
+                    <td>${u.username}</td>
+                    <td>${u.email || '-'}</td>
+                    <td>${u.isAdmin ? 'ADMIN' : 'User'}</td>
+                    <td>${u.username !== currentUser?.username ? `<button class="btn btn-danger btn-sm del-user" data-id="${u.id}">Löschen</button>` : '-'}</td>
+                </tr>`).join('')}
+        </table>
+    `;
+    document.querySelectorAll('.del-user').forEach(btn => {
         btn.addEventListener('click', async (e) => {
-            e.stopPropagation();
-            const button = e.currentTarget as HTMLElement;
-            const agentUuid = button.dataset.agentUuid!;
-            const success = await removeFavorite(agentUuid);
-            if (success) {
-                await fetchFavorites();
-                renderAgents();
+            if(confirm("User löschen?")) {
+                await fetch(`${API_URL}/admin/users?id=${(e.target as HTMLElement).dataset.id}`, { method: 'DELETE', headers: {'Authorization':`Bearer ${token}`} });
+                fetchUsers();
             }
         });
     });
 }
 
-function showAgentDetail(agentId: string): void {
-    const agent = agents.find(a => a.uuid === agentId);
+function addGridListeners() {
+    document.querySelectorAll('.agent-clickable').forEach(img => {
+        img.addEventListener('click', (e) => {
+            showAgentDetail((e.currentTarget as HTMLElement).dataset.uuid!);
+        });
+    });
+}
+
+function showAgentDetail(uuid: string) {
+    const agent = allAgents.find(a => a.uuid === uuid);
     if (!agent) return;
 
-    const detailContent = document.getElementById('agent-detail-content')!;
-    detailContent.innerHTML = `
-        <div class="agent-detail">
-            <div class="agent-header">
-                <img src="${agent.fullPortrait || agent.displayIcon}" alt="${agent.displayName}" class="agent-portrait">
-                <div class="agent-info">
-                    <h2>${agent.displayName}</h2>
-                    <p class="role">${agent.role?.displayName || 'Unknown Role'}</p>
-                    <p class="description">${agent.description}</p>
-                </div>
+    const container = document.getElementById('agent-detail-content');
+    if (!container) return;
+
+    const isFav = myFavorites.some(f => f.itemUuid === uuid);
+    
+    const btnText = isFav ? "Aus Favoriten entfernen" : "Zu Favoriten hinzufügen";
+    const btnClass = isFav ? "btn-secondary" : "btn-primary";
+    const btnIcon = isFav ? "💔" : "❤️";
+
+    const portrait = agent.fullPortrait || agent.displayIcon || '';
+    const name = agent.name || agent.displayName;
+    const role = agent.role?.displayName || "Agent";
+
+    container.innerHTML = `
+        <div class="detail-container">
+            
+            <div class="detail-image-wrapper">
+                <img src="${portrait}" class="detail-portrait" alt="${name}">
             </div>
-            <div class="abilities">
-                <h3>Fähigkeiten</h3>
-                ${agent.abilities?.map((ability: any) => `
-                    <div class="ability">
-                        <div class="ability-header">
-                            <img src="${ability.displayIcon}" alt="${ability.displayName}" class="ability-icon">
-                            <span class="ability-name">${ability.displayName}</span>
-                        </div>
-                        <p class="ability-description">${ability.description}</p>
+
+            <div class="detail-content-wrapper">
+                
+                <div class="detail-header">
+                    <h1 class="detail-name">${name}</h1>
+                    <span class="detail-role">${role}</span>
+                </div>
+
+                ${token 
+                    ? `<button id="detail-fav-btn" class="btn ${btnClass} detail-action-btn">
+                         ${btnIcon} <span>${btnText}</span>
+                       </button>`
+                    : `<div style="padding:15px; background:rgba(255,70,85,0.1); border:1px solid #ff4655; color:white; text-align:center; border-radius:4px;">
+                         🔒 <span style="font-weight:bold;">Logge dich ein</span>, um ${name} zu favorisieren.
+                       </div>`
+                }
+
+                <div style="margin-top: 30px;"></div>
+
+                <p class="detail-bio">
+                    ${agent.description || "Keine Beschreibung verfügbar."}
+                </p>
+
+                <div class="abilities-section">
+                    <h3>Fähigkeiten</h3>
+                    <div class="abilities-grid">
+                        ${agent.abilities ? agent.abilities.map((ab: any) => `
+                            <div class="ability-box">
+                                <div class="ability-top">
+                                    ${ab.displayIcon ? `<img src="${ab.displayIcon}" class="ability-img">` : ''}
+                                    <span class="ability-title">${ab.displayName}</span>
+                                </div>
+                                <p class="ability-text">${ab.description}</p>
+                            </div>
+                        `).join('') : '<p>Keine Fähigkeiten bekannt.</p>'}
                     </div>
-                `).join('') || '<p>Keine Fähigkeiten verfügbar.</p>'}
+                </div>
+
             </div>
         </div>
     `;
+
+    const btn = document.getElementById('detail-fav-btn');
+    if (btn) {
+        btn.addEventListener('click', async () => {
+            btn.innerText = "Verarbeite...";
+            (btn as HTMLButtonElement).disabled = true;
+            await toggleFavorite(uuid);
+            showAgentDetail(uuid);
+        });
+    }
 
     switchView('agent-detail');
 }
 
-async function renderAdminPanel(): Promise<void> {
-    const users = await fetchUsers();
-    const tableContainer = document.getElementById('users-table')!;
-    
-    if (users.length === 0) {
-        tableContainer.innerHTML = '<p style="color: var(--text-secondary); padding: 2rem;">Keine User gefunden oder keine Berechtigung.</p>';
-        return;
-    }
+async function toggleFavorite(uuid: string) {
+    if(!token) return;
+    const existing = myFavorites.find(f => f.itemUuid === uuid);
+    const agent = allAgents.find(a => a.uuid === uuid);
 
-    tableContainer.innerHTML = `
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Username</th>
-                    <th>Status</th>
-                    <th>Favoriten</th>
-                    <th>Erstellt am</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${users.map(user => `
-                    <tr>
-                        <td>${user.username}</td>
-                        <td>${user.isAdmin ? '<span class="admin-badge">ADMIN</span>' : 'User'}</td>
-                        <td>${user._count?.favorites || 0}</td>
-                        <td>${new Date(user.createdAt).toLocaleDateString('de-DE')}</td>
-                    </tr>
-                `).join('')}
-            </tbody>
-        </table>
-    `;
+    try {
+        if(existing) {
+            await fetch(`${API_URL}/favorites?uuid=${uuid}`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
+        } else if(agent) {
+            await fetch(`${API_URL}/favorites`, {
+                method: 'POST', headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+                body: JSON.stringify({ agentUuid: agent.uuid, agentName: agent.name || agent.displayName, agentImage: agent.image || agent.displayIcon })
+            });
+        }
+        await fetchFavorites();
+        renderAgents(); renderFavorites();
+    } catch(e) { console.error(e); }
 }
 
-// View Management
-function switchView(viewName: string): void {
-    document.querySelectorAll('.view').forEach(view => view.classList.remove('active'));
-    document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+function switchView(viewName: string) {
+    document.querySelectorAll('.view').forEach(v => {
+        v.classList.remove('active');
+        (v as HTMLElement).style.display = ''; 
+    });
+
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
 
     const targetView = document.getElementById(`${viewName}-view`);
+    
     if (targetView) {
         targetView.classList.add('active');
-    }
-
-    const targetLink = document.querySelector(`[data-view="${viewName}"]`);
-    if (targetLink) {
-        targetLink.classList.add('active');
-    }
-
-    if (viewName === 'admin' && currentUser?.isAdmin) {
-        renderAdminPanel();
-    }
-}
-
-// Auth UI
-function updateAuthUI(): void {
-    const authButtons = document.getElementById('auth-buttons')!;
-    const userInfo = document.getElementById('user-info')!;
-    const favoritesLink = document.getElementById('favorites-link')!;
-    const adminLink = document.getElementById('admin-link')!;
-
-    if (currentUser) {
-        authButtons.style.display = 'none';
-        userInfo.style.display = 'flex';
-        document.getElementById('username-display')!.textContent = currentUser.username;
-        favoritesLink.style.display = 'block';
-        
-        if (currentUser.isAdmin) {
-            adminLink.style.display = 'block';
-        }
-
-        fetchFavorites();
-        renderAgents();
+        targetView.style.display = 'block'; 
     } else {
-        authButtons.style.display = 'flex';
-        userInfo.style.display = 'none';
-        favoritesLink.style.display = 'none';
-        adminLink.style.display = 'none';
-        renderAgents();
-    }
-}
-
-function showAuthModal(isLogin: boolean): void {
-    const modal = document.getElementById('auth-modal')!;
-    const modalTitle = document.getElementById('modal-title')!;
-    const deleteSection = document.getElementById('delete-account-section')!;
-    
-    modalTitle.textContent = isLogin ? 'Login' : 'Registrieren';
-    deleteSection.style.display = isLogin ? 'block' : 'none';
-    
-    modal.style.display = 'flex';
-}
-
-function hideAuthModal(): void {
-    const modal = document.getElementById('auth-modal')!;
-    modal.style.display = 'none';
-    document.getElementById('auth-error')!.textContent = '';
-    (document.getElementById('auth-form') as HTMLFormElement).reset();
-}
-
-// Event Listeners
-document.addEventListener('DOMContentLoaded', () => {
-    // Check for existing token
-    const token = getToken();
-    if (token) {
-        // Decode token to get user info (simple decode, not secure but ok for frontend)
-        try {
-            const payload = JSON.parse(atob(token.split('.')[1]));
-            currentUser = {
-                id: payload.userId,
-                username: payload.username,
-                isAdmin: payload.isAdmin,
-            };
-        } catch (e) {
-            removeToken();
-        }
+        console.error(`Fehler: View mit ID '${viewName}-view' nicht gefunden!`);
     }
 
-    // Navigation
+    const link = document.querySelector(`[data-view="${viewName}"]`);
+    if(link) link.classList.add('active');
+
+    if (viewName === 'admin') fetchUsers();
+    
+    window.scrollTo(0, 0);
+}
+
+function setupEventListeners() {
     document.querySelectorAll('.nav-link').forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
-            const view = (e.currentTarget as HTMLElement).dataset.view!;
-            switchView(view);
+            switchView((e.target as HTMLElement).dataset.view!);
         });
     });
 
-    // Back button
-    document.getElementById('back-to-agents')!.addEventListener('click', () => {
-        switchView('agents');
-    });
+    document.getElementById('back-to-agents')?.addEventListener('click', () => switchView('agents'));
+    document.getElementById('login-btn')?.addEventListener('click', () => showAuthModal(true));
+    document.getElementById('register-btn')?.addEventListener('click', () => showAuthModal(false));
+    document.getElementById('profile-btn')?.addEventListener('click', showProfileModal);
+    document.getElementById('logout-btn')?.addEventListener('click', logout);
+    document.getElementById('auth-form')?.addEventListener('submit', handleAuth);
+    document.getElementById('btn-delete-account')?.addEventListener('click', deleteAccount);
 
-    // Auth buttons
-    document.getElementById('login-btn')!.addEventListener('click', () => showAuthModal(true));
-    document.getElementById('register-btn')!.addEventListener('click', () => showAuthModal(false));
-    document.getElementById('logout-btn')!.addEventListener('click', () => {
-        currentUser = null;
-        removeToken();
-        favorites = [];
-        updateAuthUI();
-        switchView('agents');
-    });
+    document.querySelectorAll('.close').forEach(c => c.addEventListener('click', () => {
+        document.querySelectorAll('.modal').forEach(m => (m as HTMLElement).style.display = 'none');
+    }));
+    window.onclick = (e) => {
+        if((e.target as HTMLElement).classList.contains('modal')) (e.target as HTMLElement).style.display = 'none';
+    };
+}
 
-    // Modal close
-    document.querySelector('.close')!.addEventListener('click', hideAuthModal);
-    document.getElementById('auth-modal')!.addEventListener('click', (e) => {
-        if (e.target === e.currentTarget) {
-            hideAuthModal();
-        }
-    });
+function showAuthModal(isLogin: boolean) {
+    const modal = document.getElementById('auth-modal')!;
+    modal.style.display = 'flex';
+    modal.dataset.mode = isLogin ? 'login' : 'register';
+    document.getElementById('modal-title')!.textContent = isLogin ? 'Login' : 'Registrieren';
+    (document.getElementById('auth-form') as HTMLFormElement).reset();
+    document.getElementById('auth-error')!.textContent = '';
+}
 
-    // Auth form
-    let isLoginMode = true;
-    document.getElementById('login-btn')!.addEventListener('click', () => {
-        isLoginMode = true;
-        showAuthModal(true);
-    });
-    document.getElementById('register-btn')!.addEventListener('click', () => {
-        isLoginMode = false;
-        showAuthModal(false);
-    });
+function showProfileModal() {
+    const modal = document.getElementById('modal-profile')!;
+    document.getElementById('profile-username-show')!.textContent = currentUser?.username || '';
+    modal.style.display = 'flex';
+}
 
-    document.getElementById('auth-form')!.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const username = (document.getElementById('auth-username') as HTMLInputElement).value;
-        const password = (document.getElementById('auth-password') as HTMLInputElement).value;
-        const errorEl = document.getElementById('auth-error')!;
+async function handleAuth(e: Event) {
+    e.preventDefault();
+    const isLogin = document.getElementById('auth-modal')!.dataset.mode === 'login';
+    const u = (document.getElementById('auth-username') as HTMLInputElement).value;
+    const p = (document.getElementById('auth-password') as HTMLInputElement).value;
+    
+    const body = isLogin ? {username: u, password: p} : {username: u, password: p, email: u+'@fake.de', name: u};
+    
+    try {
+        const res = await fetch(`${API_URL}/auth/${isLogin ? 'login' : 'register'}`, {
+            method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(body)
+        });
+        const data = await res.json();
 
-        try {
-            const result = isLoginMode 
-                ? await login(username, password)
-                : await register(username, password);
-
-            if (result.error) {
-                errorEl.textContent = result.error;
-            } else {
-                setToken(result.token);
-                currentUser = result.user;
-                updateAuthUI();
-                hideAuthModal();
-            }
-        } catch (error) {
-            errorEl.textContent = 'Ein Fehler ist aufgetreten';
-        }
-    });
-
-    // Delete account
-    document.getElementById('delete-account-btn')!.addEventListener('click', async () => {
-        if (!confirm('Bist du sicher? Diese Aktion kann nicht rückgängig gemacht werden!')) {
-            return;
-        }
-
-        try {
-            await deleteAccount();
-            currentUser = null;
-            removeToken();
-            favorites = [];
+        if(data.token) {
+            localStorage.setItem('token', data.token);
+            token = data.token;
+            currentUser = { username: data.user.username, isAdmin: data.isAdmin };
             updateAuthUI();
-            hideAuthModal();
-            alert('Account wurde gelöscht');
-        } catch (error) {
-            alert('Fehler beim Löschen des Accounts');
+            document.getElementById('auth-modal')!.style.display = 'none';
+            await fetchFavorites(); renderAgents();
+        } else if(!data.error) {
+            alert("Registriert! Bitte einloggen."); showAuthModal(true);
+        } else {
+            document.getElementById('auth-error')!.textContent = data.error;
         }
-    });
+    } catch(e) { document.getElementById('auth-error')!.textContent = "Fehler"; }
+}
 
-    // Initial load
-    updateAuthUI();
-    fetchAgents();
-    fetchWeapons();
-    fetchMaps();
-});
+function logout() {
+    localStorage.removeItem('token');
+    token = null; currentUser = null; myFavorites = [];
+    updateAuthUI(); renderAgents(); 
+    document.getElementById('modal-profile')!.style.display = 'none';
+    switchView('agents');
+}
+
+async function deleteAccount() {
+    if(!confirm("Wirklich löschen?")) return;
+    await fetch(`${API_URL}/auth/me`, { method: 'DELETE', headers: { 'Authorization': `Bearer ${token}` } });
+    logout();
+}
+
+function updateAuthUI() {
+    const auth = document.getElementById('auth-buttons')!;
+    const info = document.getElementById('user-info')!;
+    const fav = document.getElementById('favorites-link')!;
+    const adm = document.getElementById('admin-link')!;
+
+    if(token && currentUser) {
+        auth.style.display = 'none'; info.style.display = 'flex';
+        document.getElementById('username-display')!.textContent = currentUser.username;
+        fav.style.display = 'block';
+        adm.style.display = currentUser.isAdmin ? 'block' : 'none';
+    } else {
+        auth.style.display = 'flex'; info.style.display = 'none';
+        fav.style.display = 'none'; adm.style.display = 'none';
+    }
+}

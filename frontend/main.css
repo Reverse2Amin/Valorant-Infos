@@ -1,15 +1,14 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/* =========================================
+   1. GLOBAL & VARIABLES
+   ========================================= */
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-    --bg-dark: #0f1923;
-    --bg-card: #1a2634;
+    --bg-dark: #0f1923;       /* Valorant Dark Blue */
+    --bg-card: #1a2634;       /* Lighter Blue */
     --text-primary: #ffffff;
     --text-secondary: #b3b9c4;
-    --accent: #ff4655;
+    --accent: #ff4655;        /* Valorant Red */
     --accent-hover: #e03e4d;
     --border: #2d3a4b;
 }
@@ -19,8 +18,15 @@ body {
     background-color: var(--bg-dark);
     color: var(--text-primary);
     line-height: 1.6;
+    padding-bottom: 50px;
 }
 
+/* Helper Class */
+.hidden { display: none !important; }
+
+/* =========================================
+   2. NAVIGATION
+   ========================================= */
 #navbar {
     background-color: var(--bg-card);
     border-bottom: 2px solid var(--accent);
@@ -28,6 +34,7 @@ body {
     position: sticky;
     top: 0;
     z-index: 100;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
 
 .nav-container {
@@ -41,15 +48,17 @@ body {
 }
 
 .logo {
-    font-size: 1.5rem;
-    font-weight: bold;
+    font-size: 1.8rem;
+    font-weight: 900;
     color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
 .nav-links {
     display: flex;
-    gap: 1.5rem;
-    flex: 1;
+    gap: 1rem;
+    flex-wrap: wrap;
 }
 
 .nav-link {
@@ -57,376 +66,462 @@ body {
     text-decoration: none;
     padding: 0.5rem 1rem;
     border-radius: 4px;
-    transition: all 0.3s;
+    transition: all 0.2s ease;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.9rem;
 }
 
 .nav-link:hover {
     color: var(--text-primary);
-    background-color: rgba(255, 70, 85, 0.1);
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .nav-link.active {
-    color: var(--accent);
-    background-color: rgba(255, 70, 85, 0.2);
+    color: white;
+    background-color: var(--accent);
 }
 
-.auth-section {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-#auth-buttons, #user-info {
-    display: flex;
-    gap: 0.5rem;
-    align-items: center;
-}
-
-#username-display {
-    color: var(--text-primary);
-    font-weight: 500;
-    padding: 0.5rem 1rem;
-    background-color: rgba(255, 255, 255, 0.05);
-    border-radius: 4px;
-}
+/* =========================================
+   3. AUTH & BUTTONS
+   ========================================= */
+.auth-section { display: flex; align-items: center; gap: 1rem; }
+#auth-buttons, #user-info { display: flex; gap: 10px; align-items: center; }
+#username-display { color: var(--text-primary); font-weight: bold; margin-right: 10px; }
 
 .btn {
-    padding: 0.5rem 1.2rem;
+    padding: 0.6rem 1.2rem;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: 500;
-    transition: all 0.3s;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    transition: transform 0.1s, background-color 0.2s;
 }
+.btn:active { transform: scale(0.95); }
 
-.btn-primary {
-    background-color: var(--accent);
-    color: white;
-}
+.btn-primary { background-color: var(--accent); color: white; }
+.btn-primary:hover { background-color: var(--accent-hover); }
 
-.btn-primary:hover {
-    background-color: var(--accent-hover);
-}
+.btn-secondary { background-color: transparent; color: white; border: 1px solid var(--border); }
+.btn-secondary:hover { background-color: rgba(255, 255, 255, 0.1); border-color: white; }
 
-.btn-secondary {
-    background-color: transparent;
-    color: var(--text-secondary);
-    border: 1px solid var(--border);
-}
+.btn-danger { background-color: #dc3545; color: white; }
+.btn-danger:hover { background-color: #c82333; }
 
-.btn-secondary:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-    color: var(--text-primary);
-}
+#logout-btn { margin: 0; } /* Reset margin if needed */
 
-.btn-danger {
-    background-color: #dc3545;
-    color: white;
-}
-
-.btn-danger:hover {
-    background-color: #c82333;
-}
-
+/* =========================================
+   4. LAYOUT & GRID
+   ========================================= */
 main {
     max-width: 1400px;
     margin: 2rem auto;
     padding: 0 2rem;
 }
 
-.view {
-    display: none;
-}
+.view { display: none; animation: fadeIn 0.3s ease-in-out; }
+.view.active { display: block; }
 
-.view.active {
-    display: block;
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .container h2 {
-    margin-bottom: 2rem;
-    font-size: 2rem;
-    color: var(--accent);
+    margin-bottom: 1.5rem;
+    font-size: 2.5rem;
+    color: white;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 10px;
+    text-transform: uppercase;
+    font-weight: 900;
 }
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 25px;
 }
 
+/* =========================================
+   5. CARDS
+   ========================================= */
 .card {
     background-color: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: 8px;
     overflow: hidden;
-    transition: transform 0.3s, box-shadow 0.3s;
-    cursor: pointer;
+    transition: transform 0.2s, border-color 0.2s;
+    display: flex;
+    flex-direction: column;
     position: relative;
 }
 
 .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    transform: translateY(-7px);
+    border-color: var(--accent);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.4);
 }
 
 .card-image {
     width: 100%;
-    height: 200px;
-    object-fit: cover;
-    background-color: rgba(255, 255, 255, 0.05);
+    height: 220px;
+    object-fit: contain;
+    background-color: #121b24;
+    padding: 15px;
+    cursor: pointer;
+    transition: opacity 0.2s;
 }
+.card-image:hover { opacity: 0.8; }
 
 .card-content {
     padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
 }
 
 .card-title {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
     margin-bottom: 0.5rem;
-    color: var(--text-primary);
+    color: white;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 800;
 }
 
-.card-subtitle {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
-    margin-bottom: 0.5rem;
+.card-actions {
+    margin-top: auto;
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
 }
 
-.card-description {
-    color: var(--text-secondary);
-    font-size: 0.85rem;
-    line-height: 1.5;
-}
-
+/* Herz Button (Klein auf Karte) */
 .favorite-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: rgba(0, 0, 0, 0.6);
+    background: none;
     border: none;
-    border-radius: 50%;
+    font-size: 1.8rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+    color: var(--text-secondary);
+}
+.favorite-btn:hover { transform: scale(1.2); }
+.favorite-btn.active { color: var(--accent); }
+
+/* =========================================
+   6. NEUE DETAIL ANSICHT (Modern UI)
+   ========================================= */
+
+/* Container für den Inhalt */
+.detail-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+    align-items: flex-start; /* Wichtig gegen Verzerrung */
+    padding: 20px;
+}
+
+/* LINKS: Das große Bild */
+.detail-image-wrapper {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    justify-content: center;
+    background: radial-gradient(circle at center, rgba(255, 70, 85, 0.2) 0%, transparent 70%);
+    border-radius: 20px;
+}
+
+.detail-portrait {
+    width: 100%;
+    max-width: 450px; /* Großes Bild */
+    height: auto;
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+    transform: scale(1);
+    transition: transform 0.3s;
+}
+
+.detail-portrait:hover {
+    transform: scale(1.02);
+}
+
+/* RECHTS: Der Text & Stats */
+.detail-content-wrapper {
+    flex: 1.5; /* Nimmt mehr Platz als das Bild */
+    min-width: 350px;
+}
+
+/* Titel & Rolle */
+.detail-header {
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+.detail-name {
+    font-size: 4rem;
+    line-height: 1;
+    color: white;
+    text-transform: uppercase;
+    font-weight: 900;
+    font-style: italic;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    text-shadow: 4px 4px 0 var(--accent); /* Coole Schatten-Effekt */
+}
+
+.detail-role {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 5px 15px;
+    border-radius: 4px;
+    color: var(--accent);
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 1px solid var(--accent);
+}
+
+/* Beschreibung */
+.detail-bio {
+    font-size: 1.1rem;
+    color: #d1d5db;
+    line-height: 1.8;
+    background: var(--bg-card);
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent);
+    margin-bottom: 30px;
+}
+
+/* Fähigkeiten (Abilities) */
+.abilities-section h3 {
+    font-size: 1.5rem;
+    color: white;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.abilities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+
+.ability-box {
+    background: var(--bg-card);
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    transition: background 0.2s;
+}
+
+.ability-box:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--text-secondary);
+}
+
+.ability-top {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 10px;
+}
+
+.ability-img {
     width: 40px;
     height: 40px;
-    font-size: 1.5rem;
-    cursor: pointer;
-    transition: all 0.3s;
+    object-fit: contain;
 }
 
-.favorite-btn:hover {
-    background-color: rgba(0, 0, 0, 0.8);
-    transform: scale(1.1);
-}
-
-.favorite-btn.active {
+.ability-title {
     color: var(--accent);
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 0.9rem;
 }
 
-.agent-detail {
-    background-color: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 2rem;
-    margin-top: 2rem;
+.ability-text {
+    font-size: 0.85rem;
+    color: #9ca3af;
+    line-height: 1.4;
 }
 
-.agent-header {
-    display: flex;
-    gap: 2rem;
-    margin-bottom: 2rem;
-}
-
-.agent-portrait {
-    width: 300px;
-    height: 400px;
-    object-fit: cover;
-    border-radius: 8px;
-}
-
-.agent-info h2 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
-}
-
-.agent-info .role {
-    color: var(--accent);
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-}
-
-.agent-info .description {
-    color: var(--text-secondary);
-    line-height: 1.8;
-}
-
-.abilities {
-    margin-top: 2rem;
-}
-
-.abilities h3 {
-    font-size: 1.8rem;
-    margin-bottom: 1.5rem;
-    color: var(--accent);
-}
-
-.ability {
-    background-color: rgba(255, 255, 255, 0.03);
-    padding: 1.5rem;
-    border-radius: 8px;
-    margin-bottom: 1rem;
-    border-left: 3px solid var(--accent);
-}
-
-.ability-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 0.5rem;
-}
-
-.ability-icon {
-    width: 50px;
-    height: 50px;
-    border-radius: 4px;
-}
-
-.ability-name {
-    font-size: 1.2rem;
-    font-weight: bold;
-}
-
-.ability-description {
-    color: var(--text-secondary);
-    line-height: 1.6;
-}
-
-.modal {
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
+/* Button Styling im Detail */
+.detail-action-btn {
     width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
+    padding: 15px;
+    font-size: 1.2rem;
+    margin-top: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
     display: flex;
     align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .detail-container { flex-direction: column; }
+    .detail-image-wrapper { width: 100%; }
+    .detail-portrait { max-width: 300px; margin: 0 auto; display: block; }
+}
+
+/* =========================================
+   7. MODALS
+   ========================================= */
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 2000; 
+    left: 0; top: 0; 
+    width: 100%; height: 100%; 
+    background-color: rgba(0,0,0,0.9); 
+    backdrop-filter: blur(4px);
+    align-items: center; 
     justify-content: center;
 }
 
 .modal-content {
     background-color: var(--bg-card);
-    padding: 2rem;
-    border-radius: 8px;
+    padding: 40px;
+    border-radius: 10px;
+    border: 1px solid var(--accent);
     width: 90%;
     max-width: 400px;
     position: relative;
-    border: 1px solid var(--border);
+    box-shadow: 0 0 50px rgba(255, 70, 85, 0.15);
 }
+
+.auth-content { max-width: 400px; }
+.detail-modal-size { max-width: 900px; } /* Falls du doch mal Modal für Details willst */
 
 .close {
     position: absolute;
-    right: 1rem;
-    top: 1rem;
-    font-size: 2rem;
+    top: 15px;
+    right: 20px;
+    font-size: 30px;
     cursor: pointer;
     color: var(--text-secondary);
 }
+.close:hover { color: var(--accent); }
 
-.close:hover {
-    color: var(--text-primary);
-}
-
-.modal-content h2 {
-    margin-bottom: 1.5rem;
-    color: var(--accent);
-}
-
-.modal-content form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.modal-content input {
-    padding: 0.8rem;
+.input-field, .modal input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    background-color: var(--bg-dark);
     border: 1px solid var(--border);
     border-radius: 4px;
-    background-color: var(--bg-dark);
-    color: var(--text-primary);
+    color: white;
     font-size: 1rem;
 }
+.input-field:focus, .modal input:focus { outline: none; border-color: var(--accent); }
+.error { color: var(--accent); font-size: 0.9rem; margin-top: 10px; }
 
-.modal-content input:focus {
-    outline: none;
-    border-color: var(--accent);
-}
-
-.error {
-    color: var(--accent);
-    font-size: 0.9rem;
-    margin-top: 0.5rem;
-}
-
-#users-table {
-    background-color: var(--bg-card);
-    border: 1px solid var(--border);
+/* =========================================
+   8. ADMIN TABLE
+   ========================================= */
+#users-table table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--bg-card);
     border-radius: 8px;
     overflow: hidden;
 }
 
-.table {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-.table th {
-    background-color: rgba(255, 70, 85, 0.1);
-    color: var(--accent);
-    padding: 1rem;
+#users-table th, #users-table td {
+    padding: 15px;
     text-align: left;
-    font-weight: 600;
+    border-bottom: 1px solid var(--border);
 }
 
-.table td {
-    padding: 1rem;
+#users-table th {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--accent);
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+/* =========================================
+   9. RESPONSIVE
+   ========================================= */
+@media (max-width: 850px) {
+    .nav-container { flex-direction: column; gap: 1rem; }
+    .nav-links { justify-content: center; }
+    
+    .agent-header { flex-direction: column; align-items: center; padding: 20px; }
+    .agent-portrait { flex: 1; width: 100%; max-width: 250px; }
+    .agent-info { width: 100%; }
+    .agent-info h2 { text-align: center; font-size: 2.5rem; margin-top: 20px; }
+    
+    .abilities { grid-template-columns: 1fr; padding: 15px; } /* Untereinander auf Handy */
+}
+
+.weapon-price {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #60e6d3; /* Valorant Credits Farbe (Cyan) */
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-family: monospace;
+    border: 1px solid #60e6d3;
+    z-index: 10;
+}
+
+/* Kategorie Badge oben links */
+.weapon-category {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: var(--accent);
+    color: white;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    z-index: 10;
+}
+
+/* Stats Grid in der Karte */
+.weapon-stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* 2 Spalten */
+    gap: 10px;
+    margin-top: 15px;
+    padding-top: 15px;
     border-top: 1px solid var(--border);
 }
 
-.table tr:hover {
-    background-color: rgba(255, 255, 255, 0.03);
-}
-
-.admin-badge {
-    background-color: var(--accent);
-    color: white;
-    padding: 0.2rem 0.6rem;
+.stat-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255,255,255,0.05);
+    padding: 5px;
     border-radius: 4px;
-    font-size: 0.8rem;
-    font-weight: bold;
 }
 
-@media (max-width: 768px) {
-    .nav-container {
-        flex-direction: column;
-        gap: 1rem;
-    }
+.stat-label {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
 
-    .nav-links {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .grid {
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        gap: 1rem;
-    }
-
-    .agent-header {
-        flex-direction: column;
-    }
-
-    .agent-portrait {
-        width: 100%;
-        height: auto;
-    }
+.stat-value {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: white;
 }
