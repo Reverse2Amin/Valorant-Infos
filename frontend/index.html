@@ -23,9 +23,9 @@
                     <button id="register-btn" class="btn btn-primary">Registrieren</button>
                 </div>
                 <div id="user-info" style="display: none;">
-                    <span id="username-display"></span>
-                    <button id="logout-btn" class="btn btn-secondary">Logout</button>
-                </div>
+                    <span id="username-display" style="margin-right:15px; font-weight:bold; color:white;">User</span>
+                    <button id="profile-btn" class="btn btn-primary" style="margin-right:10px;">Profil</button>
+                    </div>
             </div>
         </div>
     </nav>
@@ -34,7 +34,7 @@
         <section id="agents-view" class="view active">
             <div class="container">
                 <h2>Agents</h2>
-                <div id="agents-grid" class="grid"></div>
+                <div id="agents-grid" class="grid">Lade Daten...</div>
             </div>
         </section>
 
@@ -61,35 +61,48 @@
 
         <section id="admin-view" class="view">
             <div class="container">
-                <h2>Admin Panel - Alle User</h2>
+                <h2>Admin Panel</h2>
                 <div id="users-table"></div>
             </div>
         </section>
-
+        
         <section id="agent-detail-view" class="view">
             <div class="container">
-                <button id="back-to-agents" class="btn btn-secondary">← Zurück zu Agents</button>
+                <button id="back-to-agents" class="btn btn-secondary" style="margin-bottom: 20px;">← Zurück zu Agents</button>
                 <div id="agent-detail-content"></div>
             </div>
         </section>
     </main>
 
-    <!-- Auth Modal -->
-    <div id="auth-modal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <span class="close">&times;</span>
+    <div id="auth-modal" class="modal">
+        <div class="modal-content auth-content">
+            <span class="close" id="close-auth">&times;</span>
             <h2 id="modal-title">Login</h2>
             <form id="auth-form">
-                <input type="text" id="auth-username" placeholder="Username" required>
-                <input type="password" id="auth-password" placeholder="Passwort" required>
-                <button type="submit" class="btn btn-primary">Absenden</button>
+                <input type="text" id="auth-username" placeholder="Username" required class="input-field">
+                <input type="password" id="auth-password" placeholder="Passwort" required class="input-field">
+                <button type="submit" class="btn btn-primary" style="width:100%;">Absenden</button>
                 <p id="auth-error" class="error"></p>
             </form>
-            <div id="delete-account-section" style="display: none; margin-top: 20px;">
-                <hr>
-                <h3>Account löschen</h3>
-                <p>Warnung: Diese Aktion kann nicht rückgängig gemacht werden!</p>
-                <button id="delete-account-btn" class="btn btn-danger">Account löschen</button>
+        </div>
+    </div>
+
+    <div id="modal-profile" class="modal">
+        <div class="modal-content auth-content" style="text-align:center;">
+            <span class="close" id="close-profile">&times;</span>
+            <h2 style="color:#ff4655; margin-bottom:20px;">Mein Profil</h2>
+            
+            <p style="color:#ddd; margin-bottom:30px;">
+                Eingeloggt als: <strong id="profile-username-show" style="color:white; font-size:1.2rem;"></strong>
+            </p>
+            
+            <button id="logout-btn" class="btn btn-secondary" style="width:100%; margin-bottom: 20px;">Logout</button>
+
+            <div style="border-top:1px solid #444; padding-top:20px;">
+                <p style="color:#ef4444; font-size:0.8rem; margin-bottom:10px;">Gefahrenzone</p>
+                <button id="btn-delete-account" class="btn btn-danger" style="width:100%;">
+                    ACCOUNT LÖSCHEN
+                </button>
             </div>
         </div>
     </div>

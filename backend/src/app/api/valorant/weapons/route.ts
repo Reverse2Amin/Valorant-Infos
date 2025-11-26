@@ -1,22 +1,25 @@
-import { NextRequest } from 'next/server';
-import { corsResponse, corsHeaders } from '@/lib/cors';
+import { NextResponse } from 'next/server';
+import { corsResponse, handleOptions } from '@/lib/cors';
 
-export async function OPTIONS() {
-  return new Response(null, { status: 204, headers: corsHeaders() });
-}
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export async function GET(req: NextRequest) {
-  try {
-    const response = await fetch('https://valorant-api.com/v1/weapons');
-    const data = await response.json();
+export async function OPTIONS() { return handleOptions(); }
 
-    if (data.status !== 200) {
-      return corsResponse({ error: 'Fehler beim Abrufen der Weapons' }, 500);
+export async function GET() {
+    try {
+        const res = await fetch('https://valorant-api.com/v1/weapons?language=de-DE');
+        const json = await res.json();
+
+        const data = json.data.map((weapon: any) => ({
+            uuid: weapon.uuid,
+            displayName: weapon.displayName,
+            category: weapon.category,
+            displayIcon: weapon.displayIcon,
+            // WICHTIG: Diese beiden Felder brauchen wir!
+            weaponStats: weapon.weaponStats, 
+            shopData: weapon.shopData        
+        }));
+
+        return corsResponse(NextResponse.json(data));
+    } catch (e) {
+        return corsResponse(NextResponse.json({ error: 'Fehler' }, { status: 500 }));
     }
-
-    return corsResponse(data);
-  } catch (error) {
-    console.error('Weapons fetch error:', error);
-    return corsResponse({ error: 'Weapons konnten nicht geladen werden' }, 500);
-  }
 }
